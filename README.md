@@ -1,6 +1,6 @@
 # X(Twitter) V2 MCP Server
 
-[![smithery badge](https://smithery.ai/badge/@clean99/x-v2-mcp)](https://smithery.ai/server/@clean99/x-v2-mcp)
+[![smithery badge](https://smithery.ai/badge/@NexusX-MCP/x-v2-server)](https://smithery.ai/server/@NexusX-MCP/x-v2-server)
 
 An MCP server implementation that provides tools for interacting with the [Twitter/X API v2](https://docs.x.com/x-api/introduction). This service allows AI assistants to retrieve tweets, post new content, reply to tweets, and quote tweets and more programmatically.
 
