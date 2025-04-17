@@ -30,10 +30,10 @@ startCommand:
       command: 'node',
       args: ['dist/index.js'],
       env: {
-        X_API_KEY: config.xApiKey,
-        X_API_SECRET: config.xApiSecret,
-        X_ACCESS_TOKEN: config.xAccessToken,
-        X_ACCESS_SECRET: config.xAccessSecret
+        TWITTER_API_KEY: config.xApiKey,
+        TWITTER_API_KEY_SECRET: config.xApiSecret,
+        TWITTER_ACCESS_TOKEN: config.xAccessToken,
+        TWITTER_ACCESS_TOKEN_SECRET: config.xAccessSecret
       }
     })
   exampleConfig:

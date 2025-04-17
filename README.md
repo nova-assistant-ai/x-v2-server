@@ -92,10 +92,10 @@ Get all lists owned by the authenticated user.
 You can get all of the token below via [X Developer Dashboard](https://developer.x.com/en/portal/products)
 
 ```
-X_API_KEY=your_api_key
-X_API_SECRET=your_api_secret
-X_ACCESS_TOKEN=your_access_token
-X_ACCESS_SECRET=your_access_token_secret
+TWITTER_API_KEY=your_api_key
+TWITTER_API_KEY_SECRET=your_api_secret
+TWITTER_ACCESS_TOKEN=your_access_token
+TWITTER_ACCESS_TOKEN_SECRET=your_access_token_secret
 ```
 
 ## Development

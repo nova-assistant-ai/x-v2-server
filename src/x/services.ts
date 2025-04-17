@@ -1,4 +1,4 @@
-import { ApiRequestError, TweetV2, TweetV2PaginableTimelineResult, TwitterApi, UserV2, ListV2 } from 'twitter-api-v2';
+import { ApiRequestError, TweetV2, TweetV2PaginableTimelineResult, TwitterApi, UserV2, ListV2, InlineErrorV2, ErrorV2 } from 'twitter-api-v2';
 
 /**
  * Twitter service for interacting with the Twitter API
@@ -45,7 +45,7 @@ export class TwitterService {
         appSecret: process.env.TWITTER_API_KEY_SECRET,
         accessToken: process.env.TWITTER_ACCESS_TOKEN,
         accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
-      });
+    });
 
     //  console.log('Twitter client initialized successfully');
     }
@@ -58,20 +58,24 @@ export class TwitterService {
    * @param paginationToken Optional pagination token for fetching next page
    * @returns Promise resolving to user timeline data
    */
-  public async getUserTweets(userId: string, paginationToken?: string, exclude?: ('retweets' | 'replies')[], maxResults?: number): Promise<TweetV2[] | ApiRequestError | string> {
+  public async getUserTweets(userId: string, paginationToken?: string, exclude?: ('retweets' | 'replies')[], maxResults?: number): Promise<TweetV2[] | InlineErrorV2[] | ApiRequestError | string> {
     try {
       const client = this.getClient();
       const tweets = await client.v2.userTimeline(userId, {
-        exclude,
-        max_results: maxResults || 50,
+        exclude: exclude ?? ["retweets"],
+        max_results: 50,
         pagination_token: paginationToken,
       });
-      return tweets.data.data;
-    } catch (error: unknown) {
-      if (error instanceof ApiRequestError) {
-        return error;
-      }
-      return JSON.stringify(error);
+
+      return JSON.stringify({
+        result: tweets.data,
+        message: "Tweets fetched successfully",
+      });
+    } catch (error: any) {
+      // Convert error to a string representation to avoid serialization issues
+      const errorMessage = error;
+      console.error('Error fetching tweets:', errorMessage);
+      return error;
     }
   }
 

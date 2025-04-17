@@ -12,7 +12,109 @@ const server = new McpServer({
   version: "1.0.0"
 }, {
   capabilities: {
-    tools: {}
+    tools: {
+      "get_tweets_by_userid": {
+        description: "Get tweets by user ID",
+        parameters: z.object({
+          userId: z.string().describe("The Twitter user ID to search for tweets"),
+        })
+      },
+      "get_tweet_by_id": {
+        description: "Get a tweet by ID",
+        parameters: z.object({
+          tweetId: z.string().describe("The ID of the tweet to retrieve")
+        })
+      },
+      "get_user_mentions": {
+        description: "Get mentions by user ID",
+        parameters: z.object({
+          userId: z.string().describe("The Twitter user ID to get mentions for"),
+        })
+      },
+      "quote_tweet": {
+        description: "Quote a tweet",
+        parameters: z.object({
+          tweetId: z.string().describe("The ID of the tweet to quote"),
+          replyText: z.string().describe("The text to include with the quote")
+        })
+      },
+      "reply_to_tweet": {
+        description: "Reply to a tweet",
+        parameters: z.object({
+          tweetId: z.string().describe("The ID of the tweet to reply to"),
+          replyText: z.string().describe("The text content of the reply")
+        })
+      },
+      "post_tweet": {
+        description: "Post a tweet",
+        parameters: z.object({
+          text: z.string().describe("The text content of the tweet")
+        })
+      },
+      "like_tweet": {
+        description: "Like a tweet",
+        parameters: z.object({
+          tweetId: z.string().describe("The ID of the tweet to like")
+        })
+      },
+      "follow_user": {
+        description: "Follow a user",
+        parameters: z.object({
+          targetUserId: z.string().describe("The ID of the user to follow")
+        })
+      },
+      "unfollow_user": {
+        description: "Unfollow a user",
+        parameters: z.object({
+          targetUserId: z.string().describe("The ID of the user to unfollow")
+        })
+      },
+      "get_user_by_username": {
+        description: "Get a user by username",
+        parameters: z.object({
+          username: z.string().describe("The Twitter username (without @ symbol)")
+        })
+      },
+      "search_tweets": {
+        description: "Search for tweets",
+        parameters: z.object({
+          query: z.string().describe("The search query"),
+          maxResults: z.number().optional().default(10).describe("Maximum number of results to return")
+        })
+      },
+      "get_trending_topics": {
+        description: "Get trending topics",
+        parameters: z.object({
+          woeid: z.number().optional().default(1).describe("The 'Where On Earth ID' (WOEID) for the location (1 for worldwide)")
+        })
+      },
+      "create_list": {
+        description: "Create a list",
+        parameters: z.object({
+          name: z.string().describe("The name of the list"),
+          description: z.string().optional().describe("Optional description for the list"),
+          isPrivate: z.boolean().optional().default(false).describe("Whether the list should be private")
+        })
+      },
+      "add_list_member": {
+        description: "Add a member to a list",
+        parameters: z.object({
+          listId: z.string().describe("The ID of the list"),
+          userId: z.string().describe("The ID of the user to add")
+        })
+      },
+      "remove_list_member": {
+        description: "Remove a member from a list",
+        parameters: z.object({
+          listId: z.string().describe("The ID of the list"),
+          userId: z.string().describe("The ID of the user to remove")
+        })
+      },
+      "get_owned_lists": {
+        description: "Get all lists owned by the authenticated user",
+        parameters: z.object({})
+      }
+    }
   }
 });
 
