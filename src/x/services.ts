@@ -62,7 +62,7 @@ export class TwitterService {
     try {
       const client = this.getClient();
       const tweets = await client.v2.userTimeline(userId, {
-        exclude: exclude ?? ["retweets"],
+        exclude: exclude ?? ["retweets", "replies"],
         max_results: 50,
         pagination_token: paginationToken,
       });
