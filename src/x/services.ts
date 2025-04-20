@@ -1,4 +1,4 @@
-import { ApiRequestError, TweetV2, TweetV2PaginableTimelineResult, TwitterApi, UserV2, ListV2, InlineErrorV2, ErrorV2 } from 'twitter-api-v2';
+import { ApiRequestError, TweetV2, TweetV2PaginableTimelineResult, TwitterApi, UserV2, ListV2, InlineErrorV2, EUploadMimeType } from 'twitter-api-v2';
 
 /**
  * Twitter service for interacting with the Twitter API
@@ -157,18 +157,52 @@ export class TwitterService {
   }
 
   /**
-   * Post a new tweet
+   * Post a new tweet, optionally with an image
    * @param text The text content of the tweet
+   * @param imageBase64 Optional base64 encoded image to attach to the tweet
    * @returns Promise resolving to the created tweet data or error
    */
-  public async postTweet(text: string): Promise<{
+  public async postTweet(text: string, imageBase64?: string): Promise<{
     id: string;
     text: string;
   } | ApiRequestError> {
     try {
       const client = this.getClient();
-      const tweet = await client.v2.tweet(text);
-      return tweet.data;
+      
+      if (imageBase64) {
+        // Convert base64 to buffer
+        const buffer = Buffer.from(imageBase64.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+        
+        // Determine image type from base64 string
+        let mimeType = EUploadMimeType.Jpeg;
+        if (imageBase64.includes('data:image/png')) {
+          mimeType = EUploadMimeType.Png;
+        } else if (imageBase64.includes('data:image/gif')) {
+          mimeType = EUploadMimeType.Gif;
+        } else if (imageBase64.includes('data:image/webp')) {
+          mimeType = EUploadMimeType.Webp;
+        }
+        
+        // Upload the media
+        const mediaId = await client.v2.uploadMedia(buffer, {
+          media_type: mimeType,
+          media_category: 'tweet_image'
+        });
+        
+        // Post tweet with media
+        const tweet = await client.v2.tweet({
+          text,
+          media: {
+            media_ids: [mediaId]
+          }
+        });
+        
+        return tweet.data;
+      } else {
+        // Post text-only tweet
+        const tweet = await client.v2.tweet(text);
+        return tweet.data;
+      }
     } catch (error: unknown) {
       // @ts-ignore
       return error;

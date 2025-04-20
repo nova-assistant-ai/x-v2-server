@@ -37,6 +37,7 @@ Replies to an existing tweet.
 ### post_tweet
 Post a new tweet.
 - `text`: The content that you want to post.
+- `imageBase64`: Image that you want to post.
 
 ### like_tweet
 Like a specific tweet.

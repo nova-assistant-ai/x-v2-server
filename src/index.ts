@@ -48,7 +48,8 @@ const server = new McpServer({
       "post_tweet": {
         description: "Post a tweet",
         parameters: z.object({
-          text: z.string().describe("The text content of the tweet")
+          text: z.string().describe("The text content of the tweet"),
+          imageBase64: z.string().optional().describe("Optional base64 encoded image to attach to the tweet")
         })
       },
       "like_tweet": {
@@ -188,10 +189,11 @@ server.tool("reply_to_tweet",
 
 server.tool("post_tweet",
   {
-    text: z.string().describe("The text content of the tweet")
+    text: z.string().describe("The text content of the tweet"),
+    imageBase64: z.string().optional().describe("Optional base64 encoded image to attach to the tweet")
   },
-  async ({ text }) => {
-    const tweet = await twitterService.postTweet(text);
+  async ({ text, imageBase64 }) => {
+    const tweet = await twitterService.postTweet(text, imageBase64);
     return {
       content: [{ type: "text", text: JSON.stringify(tweet, null, 2) }]
     };
