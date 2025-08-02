@@ -41,26 +41,24 @@ export class TwitterService {
    * @returns The initialized Twitter client
    */
   public getClient(config: Config): TwitterApi {
-    if (!this.client) {
-      //   console.log('Initializing Twitter client with credentials:', {
-      //     appKey: process.env.TWITTER_API_KEY,
-      //     appSecret: `${process.env.TWITTER_API_KEY_SECRET?.substring(0, 5)}...`,
-      //     accessToken: `${process.env.TWITTER_ACCESS_TOKEN?.substring(0, 5)}...`,
-      //     accessSecret: `${process.env.TWITTER_ACCESS_TOKEN_SECRET?.substring(0, 5)}...`,
-      //   });
+    //   console.log('Initializing Twitter client with credentials:', {
+    //     appKey: process.env.TWITTER_API_KEY,
+    //     appSecret: `${process.env.TWITTER_API_KEY_SECRET?.substring(0, 5)}...`,
+    //     accessToken: `${process.env.TWITTER_ACCESS_TOKEN?.substring(0, 5)}...`,
+    //     accessSecret: `${process.env.TWITTER_ACCESS_TOKEN_SECRET?.substring(0, 5)}...`,
+    //   });
 
-      if (!config.accessToken) {
-        throw new Error("Access token is required");
-      }
-
-      console.log("Initializing Twitter client with credentials:", {
-        accessToken: config.accessToken,
-        refreshToken: config.refreshToken,
-      });
-      this.client = new TwitterApi(config.accessToken);
-
-      //  console.log('Twitter client initialized successfully');
+    if (!config.accessToken) {
+      throw new Error("Access token is required");
     }
+
+    console.log("Initializing Twitter client with credentials:", {
+      accessToken: config.accessToken,
+      refreshToken: config.refreshToken,
+    });
+    this.client = new TwitterApi(config.accessToken);
+
+    console.log("Twitter client initialized successfully");
     return this.client;
   }
 
@@ -75,7 +73,7 @@ export class TwitterService {
     userId: string,
     paginationToken?: string,
     exclude?: ("retweets" | "replies")[],
-    maxResults?: number,
+    maxResults?: number
   ): Promise<TweetV2[] | InlineErrorV2[] | ApiRequestError | string> {
     try {
       const client = this.getClient(config);
@@ -104,7 +102,7 @@ export class TwitterService {
    */
   public async getTweet(
     config: Config,
-    tweetId: string,
+    tweetId: string
   ): Promise<TweetV2 | ApiRequestError> {
     try {
       const client = this.getClient(config);
@@ -127,7 +125,7 @@ export class TwitterService {
     config: Config,
     userId: string,
     paginationToken?: string,
-    maxResults?: number,
+    maxResults?: number
   ): Promise<TweetV2PaginableTimelineResult | ApiRequestError> {
     try {
       const client = this.getClient(config);
@@ -151,7 +149,7 @@ export class TwitterService {
   public async quoteAndComment(
     config: Config,
     tweetId: string,
-    replyText: string,
+    replyText: string
   ): Promise<
     | {
         id: string;
@@ -178,7 +176,7 @@ export class TwitterService {
   public async replyToTweet(
     config: Config,
     tweetId: string,
-    replyText: string,
+    replyText: string
   ): Promise<
     | {
         id: string;
@@ -205,7 +203,7 @@ export class TwitterService {
   public async postTweet(
     config: Config,
     text: string,
-    imageBase64?: string,
+    imageBase64?: string
   ): Promise<
     | {
         id: string;
@@ -266,7 +264,7 @@ export class TwitterService {
    */
   public async likeTweet(
     config: Config,
-    tweetId: string,
+    tweetId: string
   ): Promise<
     | {
         liked: boolean;
@@ -292,7 +290,7 @@ export class TwitterService {
    */
   public async followUser(
     config: Config,
-    targetUserId: string,
+    targetUserId: string
   ): Promise<
     | {
         following: boolean;
@@ -318,7 +316,7 @@ export class TwitterService {
    */
   public async unfollowUser(
     config: Config,
-    targetUserId: string,
+    targetUserId: string
   ): Promise<
     | {
         following: boolean;
@@ -343,7 +341,7 @@ export class TwitterService {
    */
   public async getUserByUsername(
     config: Config,
-    username: string,
+    username: string
   ): Promise<UserV2 | ApiRequestError> {
     try {
       const client = this.getClient(config);
@@ -364,7 +362,7 @@ export class TwitterService {
   public async searchTweets(
     config: Config,
     query: string,
-    maxResults: number = 10,
+    maxResults: number = 10
   ): Promise<TweetV2[] | ApiRequestError> {
     try {
       const client = this.getClient(config);
@@ -385,7 +383,7 @@ export class TwitterService {
    */
   public async getTrendingTopics(
     config: Config,
-    woeid: number = 1,
+    woeid: number = 1
   ): Promise<any | ApiRequestError> {
     try {
       const client = this.getClient(config);
@@ -408,7 +406,7 @@ export class TwitterService {
     config: Config,
     name: string,
     description?: string,
-    isPrivate: boolean = false,
+    isPrivate: boolean = false
   ): Promise<ListV2 | ApiRequestError> {
     try {
       const client = this.getClient(config);
@@ -433,7 +431,7 @@ export class TwitterService {
   public async addListMember(
     config: Config,
     listId: string,
-    userId: string,
+    userId: string
   ): Promise<
     | {
         is_member: boolean;
@@ -459,7 +457,7 @@ export class TwitterService {
   public async removeListMember(
     config: Config,
     listId: string,
-    userId: string,
+    userId: string
   ): Promise<
     | {
         is_member: boolean;
