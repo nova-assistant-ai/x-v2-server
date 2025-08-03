@@ -41,6 +41,7 @@ export class TwitterService {
    * @returns The initialized Twitter client
    */
   public getClient(config: Config): TwitterApi {
+    console.log("calling getClient", config);
     //   console.log('Initializing Twitter client with credentials:', {
     //     appKey: process.env.TWITTER_API_KEY,
     //     appSecret: `${process.env.TWITTER_API_KEY_SECRET?.substring(0, 5)}...`,
