@@ -14,8 +14,8 @@ const twitterService = TwitterService.getInstance();
 // Create an MCP server
 const server = new McpServer(
   {
-    name: "x-mcp-server-v2",
-    version: "1.0.0",
+    name: "@redzumi/twitter-mcp",
+    version: "1.0.2",
   },
   {
     capabilities: {
