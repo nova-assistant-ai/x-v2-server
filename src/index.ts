@@ -15,7 +15,7 @@ const twitterService = TwitterService.getInstance();
 const server = new McpServer(
   {
     name: "@redzumi/twitter-mcp",
-    version: "1.0.2",
+    version: "1.0.3",
   },
   {
     capabilities: {
